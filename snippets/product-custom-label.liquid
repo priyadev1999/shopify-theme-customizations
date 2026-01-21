@@ -1,0 +1,64 @@
+{% if settings.show_custom_label %}
+{% style %}
+/* Wrapper on product image */
+.custom-product-labels {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 3;
+}
+
+/* Individual label */
+.custom-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: {{ settings.label_color1 }};
+  background-color: {{ settings.label_bg_color1 }};
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Optional: second label variation */
+.custom-label:nth-child(2) {
+  color: {{ settings.label_color2 }};
+  background-color: {{ settings.label_bg_color2 }};
+}
+
+/* Optional icon support */
+.custom-label svg,
+.custom-label img {
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+}
+
+{% endstyle %}
+
+{% assign product = closest.product %}
+
+  {% if product.metafields.custom.label_1.value != blank
+     or product.metafields.custom.label_2.value != blank %}
+
+    <div class="custom-product-labels">
+      {% if product.metafields.custom.label_1.value != blank %}
+        <span class="custom-label">
+          {{ product.metafields.custom.label_1.value }}
+        </span>
+      {% endif %}
+
+      {% if product.metafields.custom.label_2.value != blank %}
+        <span class="custom-label">
+          {{ product.metafields.custom.label_2.value }}
+        </span>
+      {% endif %}
+    </div>
+
+  {% endif %}
+{% endif %}
